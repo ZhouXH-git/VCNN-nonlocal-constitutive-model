@@ -1,0 +1,3 @@
+tensorTransportFoam.C
+
+EXE = $(FOAM_APPUSERBIN)/tensorTransportFoam
