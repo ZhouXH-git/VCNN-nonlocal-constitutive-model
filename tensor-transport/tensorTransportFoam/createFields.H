@@ -13,6 +13,10 @@ volVectorField U
     mesh
 );
 
+// Velocity field is frozen. Compute gradU outside the loop
+tmp<volTensorField> tgradU(fvc::grad(U));
+const volTensorField& gradU = tgradU();
+
 
 Info<< "Reading field R\n" << endl;
 
@@ -79,16 +83,17 @@ dimensionedScalar DR
     transportProperties.lookup("DR")
 );
 
+
 // used only if using effective viscsity to diffuse R
 // dimensionedScalar nu
-// (
-//     dimensioned<scalar>::lookupOrAddToDict
-//     (
-//         "nu",
-//         transportProperties,
-//         1E-8
-//     )
-// );
+//  (
+//      dimensioned<scalar>::lookupOrAddToDict
+//      (
+//          "nu",
+//          transportProperties,
+//          1E-6
+//      )
+//  );
 
 dimensionedScalar C1
 (
@@ -127,7 +132,7 @@ dimensionedScalar Cmu
 dimensionedScalar Cc(sqrt(sqrt(Cmu)));
 dimensionedScalar Cd(pow(Cc, 3));
 
-
+transportProperties.lookupOrAddDefault<Switch>("initRwithChannel", false);
 
 // mixing length: lm = min(κη, Cμδ)
 
@@ -136,17 +141,17 @@ dimensionedScalar Cd(pow(Cc, 3));
 
 // used only if using effective viscsity to diffuse R
 // volScalarField DREff
-// (
-//     IOobject
-//     (
-//         "DREff",
-//         runTime.timeName(),
-//         mesh,
-//         IOobject::NO_READ,
-//         IOobject::AUTO_WRITE
-//     ),
-//     Cc * sqr(k) * lm + nu)
-// );
+//  (
+//      IOobject
+//      (
+//          "DREff",
+//          runTime.timeName(),
+//          mesh,
+//          IOobject::NO_READ,
+//          IOobject::AUTO_WRITE
+//      ),
+//      Cc * sqr(k) * lm + nu
+//  );
 
 volScalarField epsilon
 (
@@ -160,6 +165,38 @@ volScalarField epsilon
     ),
     Cd*pow(sqrt(mag(k)), 3)/lm
 );
+
+
+if(initRwithChannel)
+{
+    dimensionedScalar uprime // turb. intensity to initialize R
+        (
+            transportProperties.lookup("uprime")
+        );
+
+    volScalarField nut(Cc * uprime * lm);
+    volSymmTensorField twoS(twoSymm(gradU));
+    volScalarField shear = nut*twoS.component(symmTensor::XY);
+
+    // Follow Pope (2000), Fig. 7.17/7.33 for ratio of stress components
+    // <u^2>:<v^2>:<w^2>:<uv> = 1:0.4:0.6:(-0.5)
+    Info << "Replacing R with plane channel flow ratio ..." <<endl;
+    R.replace(tensor::XY, shear);
+    R.replace(tensor::XX, -2*shear);
+    R.replace(tensor::YY, -0.8*shear);
+    R.replace(tensor::ZZ, -1.2*shear);
+    R.replace(tensor::XZ, 0.0);
+    R.replace(tensor::YZ, 0.0);
+
+    volSymmTensorField RChannel
+        (
+            "RChannel",
+            R
+        );
+    RChannel.write();
+}
+
+
 
 
 #include "createPhi.H"

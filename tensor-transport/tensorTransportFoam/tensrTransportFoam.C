@@ -54,6 +54,37 @@ int main(int argc, char *argv[])
     // Velocity field is frozen. Compute gradU outside the loop
     tmp<volTensorField> tgradU(fvc::grad(U));
     const volTensorField& gradU = tgradU();
+
+    
+    if(initRwithChannel)
+    {
+        dimensionedScalar uprime // turb. intensity to initialize R
+            (
+                transportProperties.lookup("uprime")
+            );
+
+        volScalarField nut(Cc * uprime * lm);
+        volSymmTensorField twoS(twoSymm(gradU));
+        volScalarField shear = nut*twoS.component(symmTensor::XY);
+
+        // Follow Pope (2000), Fig. 7.17/7.33 for ratio of stress components
+        // <u^2>:<v^2>:<w^2>:<uv> = 1:0.4:0.6:(-0.5)
+        Info << "Replacing R with plane channel flow ratio ..." <<endl;
+        R.replace(tensor::XY, shear);
+        R.replace(tensor::XX, -2*shear);
+        R.replace(tensor::YY, -0.8*shear);
+        R.replace(tensor::ZZ, -1.2*shear);
+        R.replace(tensor::XZ, 0.0);
+        R.replace(tensor::YZ, 0.0);
+
+        volSymmTensorField RChannel
+            (
+                "RChannel",
+                R
+            );
+        RChannel.write();
+    }
+
     
     while (simple.loop(runTime))
     {
@@ -64,7 +95,8 @@ int main(int argc, char *argv[])
         while (simple.correctNonOrthogonal())
         {
             // Warning: R = <u_i, u_j> is -\tau !
-            // This is LRR-IP model with linear slow/rapid Pressure-Rate-of-Strain (PRoS) terms
+            // This is LRR-IP model with
+            // linear slow/rapid Pressure-Rate-of-Strain (PRoS) terms.
 
             Pr = -twoSymm(R & gradU);
 
