@@ -1,0 +1,116 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+type sets;
+libs ("libsampling.so");
+
+setFormat raw;
+surfaceFormat vtk;
+interpolationScheme cellPoint;
+
+fields
+(
+    U
+    T
+);
+
+sets
+(
+    line_x0
+    {
+        type        midPoint;
+        axis        y;
+        start       (0.00001 0 0.025);
+        end         (0.00001 3.035  0.025);
+    }
+    line_x0p5
+    {
+        type        midPoint;
+        axis        y;
+        start       (0.5 0 0.025);
+        end         (0.5 3.035  0.025);
+    }
+    line_x1
+    {
+        type        midPoint;
+        axis        y;
+        start       (1.00001 0 0.025);
+        end         (1.00001 3.035  0.025);
+    }
+    line_x2
+    {
+        type        midPoint;
+        axis        y;
+        start       (2.00001 0 0.025);
+        end         (2.00001 3.035  0.025);
+    }
+    line_x3
+    {
+        type        midPoint;
+        axis        y;
+        start       (3.00001 0 0.025);
+        end         (3.00001 3.035  0.025);
+    }
+    line_x4
+    {
+        type        midPoint;
+        axis        y;
+        start       (4.00001 0  0.025);
+        end         (4.00001 3.035  0.025);
+    }
+    line_x4p5
+    {
+        type        midPoint;
+        axis        y;
+        start       (4.5 0  0.025);
+        end         (4.5 3.035  0.025);
+    }
+    line_x5
+    {
+        type        midPoint;
+        axis        y;
+        start       (5.00001 0  0.025);
+        end         (5.00001 3.035  0.025);
+    }
+    line_x6
+    {
+        type        midPoint;
+        axis        y;
+        start       (6.00001 0  0.025);
+        end         (6.00001 3.035  0.025);
+    }
+    line_x7
+    {
+        type        midPoint;
+        axis        y;
+        start       (7.00001 0  0.025);
+        end         (7.00001 3.035  0.025);
+    }
+    line_x8
+    {
+        type        midPoint;
+        axis        y;
+        start       (8.00001 0  0.025);
+        end         (8.00001 3.035  0.025);
+    }
+);
+
+surfaces
+(
+
+);
+
+// *********************************************************************** //
