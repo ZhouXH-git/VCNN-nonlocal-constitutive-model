@@ -24,32 +24,47 @@ volScalarField A2
         dimensionedScalar("A2v", dimless, 0.0)
     );
 
-    volScalarField xi
+volScalarField A3
     (
         IOobject
         (
-            "xi",
+            "A3",
             runTime.timeName(),
             mesh,
             IOobject::NO_READ,
             IOobject::AUTO_WRITE
         ),
         mesh,
-        dimensionedScalar("xiv", dimless, 0.0)
+        dimensionedScalar("A3v", dimless, 0.0)
     );
 
-    volScalarField eta
+
+    volScalarField xB
     (
         IOobject
         (
-            "eta",
+            "xB",
             runTime.timeName(),
             mesh,
             IOobject::NO_READ,
             IOobject::AUTO_WRITE
         ),
         mesh,
-        dimensionedScalar("etav", dimless, 0.0)
+        dimensionedScalar("xbv", dimless, 0.0)
+    );
+
+    volScalarField yB
+    (
+        IOobject
+        (
+            "yB",
+            runTime.timeName(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        mesh,
+        dimensionedScalar("ybv", dimless, 0.0)
     );
 
 
@@ -67,18 +82,18 @@ volScalarField A2
         dimensionedSymmTensor("bv", dimless, symmTensor::zero)
     );
 
-    volVectorField lam
+    volVectorField lams
     (
         IOobject
         (
-            "lam",
+            "lams",
             runTime.timeName(),
             mesh,
             IOobject::NO_READ,
             IOobject::AUTO_WRITE
         ),
         mesh,
-        dimensionedVector ("lamv", dimless, vector::zero)
+        dimensionedVector ("lamsv", dimless, vector::zero)
     );
 
 
