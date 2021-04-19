@@ -34,9 +34,11 @@ Description
 
     Compute:
     - normalized anisotropy
-    - A2 (tr(bb^t))
-    - Coordinates in Barycentric triangle
+    - A2,A3 for Lumley triagnle
+    - Coordinates in Barycentric triangle (xB, yB)
 
+    Conventions following Eqs. (2.1)-(2.4) in (Emory & Iaccarino 2014)
+    https://web.stanford.edu/group/ctr/ResBriefs/2014/14_emory.pdf
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
@@ -50,7 +52,7 @@ int main(int argc, char *argv[])
 {
     argList::addNote
     (
-	"Compute invariants of Reynolds stress R"
+	"Compute invariants of Reynolds stress R: A2, A3, xB, yB"
     );
 
     // argList::noParallel();
