@@ -24,7 +24,7 @@ volSymmTensorField R
 (
     IOobject
     (
-        "R",
+        "R2",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
@@ -46,6 +46,8 @@ volSymmTensorField Pr
     -twoSymm(R & ((fvc::grad(U))()) )
 );
 
+dimensionedScalar kSmall("ks", dimVelocity*dimVelocity, SMALL);
+
 volScalarField k
 (
     IOobject
@@ -56,9 +58,9 @@ volScalarField k
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    0.5*tr(R)
+    0.5*tr(R)+kSmall
 );
-       
+      
 
 
 Info<< "Reading transportProperties\n" << endl;
@@ -77,13 +79,22 @@ IOdictionary transportProperties
 
 
 Info<< "Reading diffusivity and coefficients\n" << endl;
-
+/*
 dimensionedScalar DR
 (
     transportProperties.lookup("DR")
 );
+*/
 
+dimensionedScalar DR("DR", dimViscosity, transportProperties);
+dimensionedScalar delta("delta", dimLength, transportProperties);
 
+/*
+dimensionedScalar delta
+(
+    transportProperties.lookup("delta")
+);
+*/
 // used only if using effective viscsity to diffuse R
 // dimensionedScalar nu
 //  (
@@ -132,12 +143,44 @@ dimensionedScalar Cmu
 dimensionedScalar Cc(sqrt(sqrt(Cmu)));
 dimensionedScalar Cd(pow(Cc, 3));
 
-transportProperties.lookupOrAddDefault<Switch>("initRwithChannel", false);
+Switch initRwithChannel
+(
+    transportProperties.lookupOrAddDefault<Switch>("initRwithChannel", false)
+);
+
+
 
 // mixing length: lm = min(κη, Cμδ)
 
 // TODO: copy mixing length computation here:
 // need to set up κ  and wall distance κη as well; Cmu is constructed above.
+
+volScalarField d
+(
+    IOobject
+    (
+        "wallDistance",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::NO_WRITE
+    ),
+    mesh
+);
+
+volScalarField lm
+(
+    IOobject
+    (
+        "mixingLength",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    min(0.41*d+100*SMALL*delta,0.09*delta)
+);
+lm.write();
 
 // used only if using effective viscsity to diffuse R
 // volScalarField DREff
@@ -169,11 +212,12 @@ volScalarField epsilon
 
 if(initRwithChannel)
 {
-    dimensionedScalar uprime // turb. intensity to initialize R
-        (
-            transportProperties.lookup("uprime")
-        );
-
+   // dimensionedScalar uprime // turb. intensity to initialize R
+   //    (
+   //         transportProperties.lookup("uprime")
+   //     );
+ 
+    dimensionedScalar uprime("uprime", dimVelocity, transportProperties);
     volScalarField nut(Cc * uprime * lm);
     volSymmTensorField twoS(twoSymm(gradU));
     volScalarField shear = nut*twoS.component(symmTensor::XY);
@@ -181,12 +225,15 @@ if(initRwithChannel)
     // Follow Pope (2000), Fig. 7.17/7.33 for ratio of stress components
     // <u^2>:<v^2>:<w^2>:<uv> = 1:0.4:0.6:(-0.5)
     Info << "Replacing R with plane channel flow ratio ..." <<endl;
-    R.replace(tensor::XY, shear);
-    R.replace(tensor::XX, -2*shear);
-    R.replace(tensor::YY, -0.8*shear);
-    R.replace(tensor::ZZ, -1.2*shear);
-    R.replace(tensor::XZ, 0.0);
-    R.replace(tensor::YZ, 0.0);
+    R.replace(symmTensor::XY, shear);
+    Info << "Replacing XX " <<endl;
+    R.replace(symmTensor::XX, -2*shear);
+    R.replace(symmTensor::YY, -0.8*shear);
+    R.replace(symmTensor::ZZ, -1.2*shear);
+    Info << "Replacing XZ " <<endl;
+    R.replace(symmTensor::XZ, 0.0);
+    Info << "Replacing YZ " <<endl;
+    R.replace(symmTensor::YZ, 0.0);
 
     volSymmTensorField RChannel
         (
