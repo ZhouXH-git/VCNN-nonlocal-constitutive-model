@@ -79,32 +79,11 @@ IOdictionary transportProperties
 
 
 Info<< "Reading diffusivity and coefficients\n" << endl;
-/*
-dimensionedScalar DR
-(
-    transportProperties.lookup("DR")
-);
-*/
 
-dimensionedScalar DR("DR", dimViscosity, transportProperties);
+dimensionedScalar DRscalar("DR", dimViscosity, transportProperties);
 dimensionedScalar delta("delta", dimLength, transportProperties);
+dimensionedScalar nu("nu", dimViscosity, transportProperties);
 
-/*
-dimensionedScalar delta
-(
-    transportProperties.lookup("delta")
-);
-*/
-// used only if using effective viscsity to diffuse R
-// dimensionedScalar nu
-//  (
-//      dimensioned<scalar>::lookupOrAddToDict
-//      (
-//          "nu",
-//          transportProperties,
-//          1E-6
-//      )
-//  );
 
 dimensionedScalar C1
 (
@@ -115,6 +94,8 @@ dimensionedScalar C1
         1.8
     )
 );
+
+
 
 dimensionedScalar C2
 (
@@ -148,6 +129,11 @@ Switch initRwithChannel
     transportProperties.lookupOrAddDefault<Switch>("initRwithChannel", false)
 );
 
+
+Switch turbDiffusion
+(
+    transportProperties.lookupOrAddDefault<Switch>("turbDiffusion", false)
+);
 
 
 // mixing length: lm = min(κη, Cμδ)
@@ -183,18 +169,22 @@ volScalarField lm
 lm.write();
 
 // used only if using effective viscsity to diffuse R
-// volScalarField DREff
-//  (
-//      IOobject
-//      (
-//          "DREff",
-//          runTime.timeName(),
-//          mesh,
-//          IOobject::NO_READ,
-//          IOobject::AUTO_WRITE
-//      ),
-//      Cc * sqr(k) * lm + nu
-//  );
+volScalarField DREff
+(
+    IOobject
+    (
+        "DREff",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    DRscalar
+);
+
+// Don't write if DREff is specified by DR.
+if(!turbDiffusion) {DREff.writeOpt() = IOobject::NO_WRITE;}
 
 volScalarField epsilon
 (

@@ -98,15 +98,17 @@ int main(int argc, char *argv[])
             Pr = -twoSymm(R & gradU);
 
 
-            // Optional: Compute DR using eddy viscosity
-            // TODO: uncomment the line below and test its effects
-            // DREff = Cc * sqr(k) * lm + I*nu
+            // Optional: Compute Effective DR using eddy viscosity
+            if(turbDiffusion)
+            {
+                DREff = Cc * sqrt(k) * lm + I*nu;
+            }
 
             fvSymmTensorMatrix REqn
             (
                 fvm::ddt(R)
               + fvm::div(phi, R)
-              - fvm::laplacian(DR, R)
+              - fvm::laplacian(DREff, R)
               + fvm::Sp(C1*epsilon/k, R) // anisotropic term of Rotta's model for slow PRoS
              ==
                 Pr   // production
