@@ -19,6 +19,8 @@ uprime           0.1;
 DR             	 0.1;
 delta 	         0.2; // Boundary layer thickness
 initRwithChannel true;
+turbDiffusion    true;
+nu               1e-6;
 C1               1.8;
 C2               0.6;
 
