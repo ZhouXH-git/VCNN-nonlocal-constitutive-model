@@ -132,7 +132,7 @@ Switch initRwithChannel
 
 Switch turbDiffusion
 (
-    transportProperties.lookupOrAddDefault<Switch>("turbDiffusion", false)
+    transportProperties.lookupOrAddDefault<Switch>("turbDiffusion", true)
 );
 
 
