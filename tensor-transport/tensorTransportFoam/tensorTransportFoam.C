@@ -104,7 +104,8 @@ int main(int argc, char *argv[])
             if(turbDiffusion)
             {
                // DREff = Cc * sqrt(k) * lm + I*nu;
-                DREff = Cc * sqrt(k) * lm + nu;
+                // DREff = Cc * sqrt(k) * lm + nu;
+                DREff = Cmu * k*k / epsilon + nu;
             }
 
             fvSymmTensorMatrix REqn
@@ -161,7 +162,11 @@ int main(int argc, char *argv[])
 
             // update TKE and dissipation fields
             k = 0.5 * tr(R);
-            epsilon = Cd * pow(sqrt(k), 3)/lm;
+
+            if(!freezeEpsilon)
+            {
+                epsilon = Cd * pow(sqrt(k), 3)/lm;
+            }
 
         }
 

@@ -33,6 +33,19 @@ volSymmTensorField R
     mesh
 );
 
+volScalarField epsilonFr
+(
+    IOobject
+    (
+        "epsilonFr",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::NO_WRITE
+    ),
+    mesh
+);
+
 volSymmTensorField Pr
 (
     IOobject
@@ -173,6 +186,11 @@ Switch wallReflection
     transportProperties.lookupOrAddDefault<Switch>("wallReflection", false)
 );
 
+Switch freezeEpsilon
+(
+    transportProperties.lookupOrAddDefault<Switch>("freezeEpsilon", false)
+);
+
 
 // mixing length: lm = min(κη, Cμδ)
 
@@ -237,6 +255,10 @@ volScalarField epsilon
     Cd*pow(sqrt(mag(k)), 3)/lm
 );
 
+if(freezeEpsilon)
+{
+    epsilon = epsilonFr;
+}
 
 if(initRwithChannel)
 {
