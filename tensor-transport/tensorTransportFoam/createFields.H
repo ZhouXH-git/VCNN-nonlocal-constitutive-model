@@ -96,6 +96,28 @@ dimensionedScalar C1
 );
 
 
+dimensionedScalar Cref1
+(
+    dimensioned<scalar>::lookupOrAddToDict
+    (
+        "Cref1",
+        transportProperties,
+        0.5
+    )
+);
+
+dimensionedScalar Cref2
+(
+    dimensioned<scalar>::lookupOrAddToDict
+    (
+        "Cref2",
+        transportProperties,
+        0.3
+    )
+);
+
+
+
 
 dimensionedScalar C2
 (
@@ -106,6 +128,18 @@ dimensionedScalar C2
         0.6
     )
 );
+
+
+dimensionedScalar kappa
+(
+    dimensioned<scalar>::lookupOrAddToDict
+    (
+        "kappa",
+        transportProperties,
+        0.41
+    )
+);
+
 
 dimensionedScalar Cmu
 (
@@ -129,10 +163,14 @@ Switch initRwithChannel
     transportProperties.lookupOrAddDefault<Switch>("initRwithChannel", false)
 );
 
-
 Switch turbDiffusion
 (
     transportProperties.lookupOrAddDefault<Switch>("turbDiffusion", true)
+);
+
+Switch wallReflection
+(
+    transportProperties.lookupOrAddDefault<Switch>("wallReflection", false)
 );
 
 
@@ -164,7 +202,7 @@ volScalarField lm
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    min(0.41*d+100*SMALL*delta,0.09*delta)
+    min(kappa*d+100*SMALL*delta,Cmu*delta)
 );
 lm.write();
 

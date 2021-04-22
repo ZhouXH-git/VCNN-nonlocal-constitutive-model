@@ -58,6 +58,7 @@ Description
 #include "fvCFD.H"
 #include "fvOptions.H"
 #include "simpleControl.H"
+#include "wallFvPatch.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
 {
     argList::addNote
     (
-        "Passive scalar transport equation solver."
+        "Passive tensor transport equation solver."
     );
 
     #include "addCheckCaseOptions.H"
@@ -118,6 +119,22 @@ int main(int argc, char *argv[])
                 + fvOptions(R)
             );
 
+            // Optionally add wall-refection term
+            if (wallReflection)
+            {
+                const volVectorField& n_(wallDist::New(this->mesh_).n());
+                const volScalarField& y_(wallDist::New(this->mesh_).y());
+                
+                const volSymmTensorField reflect
+                    (
+                        Cref1*R - ((Cref2*C2)*(k/epsilon))*dev(Pr)
+                    );
+                
+                REqn +=
+                    ((3*pow(Cmu, 0.75)/kappa)*(sqrt(k)/y_))
+                    *dev(symm((n_ & reflect)*n_));
+            }
+            
             REqn.relax();
             fvOptions.constrain(REqn);
             REqn.solve();
