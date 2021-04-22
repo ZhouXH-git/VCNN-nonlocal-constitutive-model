@@ -59,6 +59,7 @@ Description
 #include "fvOptions.H"
 #include "simpleControl.H"
 #include "wallFvPatch.H"
+#include "wallDist.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -122,8 +123,8 @@ int main(int argc, char *argv[])
             // Optionally add wall-refection term
             if (wallReflection)
             {
-                const volVectorField& n_(wallDist::New(this->mesh_).n());
-                const volScalarField& y_(wallDist::New(this->mesh_).y());
+                const volVectorField& n_(wallDist::New(mesh).n());
+                const volScalarField& y_(wallDist::New(mesh).y());
                 
                 const volSymmTensorField reflect
                     (
