@@ -20,6 +20,9 @@ DR             	 0.1;
 delta 	         0.2; // Boundary layer thickness
 initRwithChannel true;
 turbDiffusion    true;
+wallReflection   true;
+kappa            0.41;
+
 nu               1e-6;
 C1               1.8;
 C2               0.6;
