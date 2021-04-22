@@ -130,6 +130,16 @@ dimensionedScalar Cref2
 );
 
 
+dimensionedScalar Ceps
+(
+    dimensioned<scalar>::lookupOrAddToDict
+    (
+        "Ceps",
+        transportProperties,
+        1.0
+    )
+);
+
 
 
 dimensionedScalar C2
@@ -252,7 +262,7 @@ volScalarField epsilon
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    Cd*pow(sqrt(mag(k)), 3)/lm
+    Ceps*Cd*pow(sqrt(mag(k)), 3)/lm
 );
 
 if(freezeEpsilon)

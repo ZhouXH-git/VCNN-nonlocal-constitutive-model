@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 
             if(!freezeEpsilon)
             {
-                epsilon = Cd * pow(sqrt(k), 3)/lm;
+                epsilon = Ceps * Cd * pow(sqrt(k), 3)/lm;
             }
 
         }
