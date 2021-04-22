@@ -103,7 +103,6 @@ int main(int argc, char *argv[])
             // Optional: Compute Effective DR using eddy viscosity
             if(turbDiffusion)
             {
-               // DREff = Cc * sqrt(k) * lm + I*nu;
                 // DREff = Cc * sqrt(k) * lm + nu;
                 DREff = Cmu * k*k / epsilon + nu;
             }

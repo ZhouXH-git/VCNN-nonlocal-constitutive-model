@@ -257,6 +257,7 @@ volScalarField epsilon
 
 if(freezeEpsilon)
 {
+    Info << "Set epsilon to frozen epsilon at t=0" << endl;
     epsilon = epsilonFr;
 }
 
