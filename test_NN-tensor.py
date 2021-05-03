@@ -68,10 +68,10 @@ N = 150 # number of points
 
 # give random rotation matrix
 rota_matrix = torch.rand(B,3,3)
-# angle = random.uniform(0,2*np.pi)
-angle = np.pi/2
+angle = random.uniform(0,2*np.pi)
+# angle = np.pi/2
 
-rota_array = np.array([[np.cos(angle),-np.sin(angle),0],[np.sin(angle),np.cos(angle),0],[0,0,1]])
+rota_array = np.array([[np.cos(angle),np.sin(angle),0],[-np.sin(angle),np.cos(angle),0],[0,0,1]])
 rota_matrix[:,0:3,0:3] = torch.tensor(rota_array)
 rota_matrix_t = rota_matrix.permute(0,2,1)
 
@@ -86,5 +86,5 @@ def test_NN():
     output2_rota = torch.bmm(rota_matrix_t,output2)
     output2_rota = torch.bmm(output2_rota,rota_matrix)
 
-    assert torch.norm(output1 - output2_rota) < 1e-7   
+    assert torch.norm(output1 - output2_rota) < 1e-7
 
