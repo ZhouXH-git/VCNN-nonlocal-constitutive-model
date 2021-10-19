@@ -6,3 +6,11 @@ Co-developed by Dr. Heng Xiao's group at Virginia Tech: [Data-Enabled Computatio
 This repository contains the code and data for the following paper(s):
 
 *   X-H. Zhou, J.Q. Han, and H. Xiao. Frame-independent vector-cloud neural network for nonlocal constitutive modelling on arbitrary grids. *Computer Methods in Applied Mechanics and Engineering*. In Press, 2021. Also available at arXiv: [https://arxiv.org/abs/2103.06685](2103.06685)
+
+Contributors:
+-------------
+* Xu-Hui Zhou
+* Jiequn Han
+* Heng Xiao
+
+Contact: Xu-Hui Zhou
