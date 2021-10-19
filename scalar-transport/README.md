@@ -5,10 +5,11 @@
 * __transport_1__: foam transport case with hill slope = 1 (an example of transport case)
 
 Steps to run:
-* 1. Run auto-generate_case.sh  (to generate a family of flow & transport cases)
-* 2. Run get-raw-data.sh  (to read all the raw data needed from generated transport cases)
-* 3. Run get-training-data.py  (to get the final training data based on the raw data)
-* 4. Run Training-VCNN.ipynb  (to train the neural network using the training data)
+* 1. Compile the solver file (in OpenFOAM)
+* 2. Run auto-generate_case.sh  (to generate a family of flow & transport cases)
+* 3. Run get-raw-data.sh  (to read all the raw data needed from generated transport cases)
+* 4. Run get-training-data.py  (to get the final training data based on the raw data)
+* 5. Run Training-VCNN.ipynb  (to train the neural network using the training data)
 
 ```sh
 wmake myTFoam
