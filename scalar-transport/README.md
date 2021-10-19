@@ -12,7 +12,7 @@ Steps to run:
 * 5. Run Training-VCNN.ipynb  (to train the neural network using the training data)
 
 Remember:
-Change all the paths in the code to your own paths!
+* Change all the paths in the code to your own paths!
 
 ```sh
 wmake myTFoam
