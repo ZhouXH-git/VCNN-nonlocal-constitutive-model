@@ -11,6 +11,9 @@ Steps to run:
 * 4. Run get-training-data.py  (to get the final training data based on the raw data)
 * 5. Run Training-VCNN.ipynb  (to train the neural network using the training data)
 
+Remember:
+Change all the paths in the code to your own paths!
+
 ```sh
 wmake myTFoam
 
