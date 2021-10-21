@@ -18,3 +18,4 @@ Contributors:
 * Heng Xiao
 
 Contact: Xu-Hui Zhou
+Email address: xuhuizhou@vt.edu
