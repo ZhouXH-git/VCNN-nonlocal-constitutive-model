@@ -3,9 +3,7 @@ The vector-cloud neural network (VCNN) is a promising tool not only as nonlocal 
 
 Co-developed by Dr. Heng Xiao's group at Virginia Tech: [Data-Enabled Computational Mechanics Laboratory at Virgnia Tech](https://www.aoe.vt.edu/people/faculty/xiaoheng/personal-page.html) and Dr. Jiequn Han at Flatiron Institute: [Center for Computational Mathematics.](https://www.simonsfoundation.org/people/jiequn-han/)
 
-![image](https://github.com/xuhuizhou-vt/VCNN-nonlocal-constitutive-model/blob/master/figs/schematic_workflow.png)
-
-##### Schematic of the frame-independent, permutation-invariant vector-cloud neural network for nonlocal constitutive modeling, showing a mapping $\cQ \mapsto \tau$ from a cloud (left oval) of feature vectors $\cQ = \vstack{\bq_1^\top, \bq_2^\top, \ldots}$ to the closure variable $\tau$ (center of right oval). We construct the mapping by starting with two simultaneous operations: (i) extract pairwise inner-product to obtain rotational invariant features $\cD'_{ii'} = \bq_i^\top \bq_{i'}$ and (ii) map the scalar quantities $\bw$ in each vector $\bq$ in the cloud through an embedding network to form a permutational invariant basis $\cG$, which also inherits its rotational invariance from input~$\bw$. Then, we project $\cD'$ onto basis $\cG$ (not necessarily orthogonal) to produce final feature matrix $\cD$, which is invariant to frame and permutation. Finally, we fit a neural network to map features $\cD$ to closure variable $\tau$.
+![image](https://github.com/xuhuizhou-vt/VCNN-nonlocal-constitutive-model/blob/master/figs/schematic-NN.png)
 
 This repository contains the code and data for the following paper(s):
 
