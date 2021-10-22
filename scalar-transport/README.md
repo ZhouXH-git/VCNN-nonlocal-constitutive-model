@@ -6,11 +6,11 @@
 
 Steps to run:
 * 1. Compile the solver file (in OpenFOAM)
-* 2. Run auto-generate_case.sh  (to generate a family of flow & transport cases)
-* 3. Run get-raw-data.sh  (to read all the raw data needed from generated transport cases)
-* 4. Run get-training-data.py  (to get the final training data based on the raw data)
-* 5. Run Training-VCNN.ipynb  (to train the neural network using the training data with fixed number of points within each cloud)
-* 6. Run general-validation_full-stencil.sh (to test the trained model in interpolation & extrapolation cases, but with full number of points within each cloud. Note that for testing, you may need to generate more cases in step 2.)
+* 2. Run auto-generate_case.sh  (generate a family of flow & transport cases)
+* 3. Run get-raw-data.sh  (read all the raw data from generated transport cases)
+* 4. Run get-training-data.py  (process the raw data to training data)
+* 5. Run Training-VCNN.ipynb  (train the neural network)
+* 6. Run general-validation_full-stencil.sh (test the trained model in interpolation & extrapolation cases, but with full number of points within each cloud. Note that for testing, you may need to generate more cases in step 2.)
 
 Remember:
 * Change all the paths in the code to your own paths!
