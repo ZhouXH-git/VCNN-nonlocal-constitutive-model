@@ -1,8 +1,9 @@
-Code Repository for the following paper:
+# Code Repository for the following paper #
 
-X.H. Zhou, J. Han, H. Xiao. Frame-independent vector-cloud neural network for nonlocal constitutive modelling on arbitrary grids. Computer Methods in Applied Mechanics and Engineering, 2021.
+X.H. Zhou, J. Han, H. Xiao. Frame-independent vector-cloud neural network for nonlocal constitutive modelling on arbitrary grids. _Computer Methods in Applied Mechanics and Engineering_, 2021.
 
 
+## Directories
 
 * __myTFoam__ : solver for scalar transport
 * __flow_template__: foam template for generating a family of flow cases
@@ -10,7 +11,7 @@ X.H. Zhou, J. Han, H. Xiao. Frame-independent vector-cloud neural network for no
 * __flow_1__: foam flow case with hill slope = 1 (an example of flow case)
 * __transport_1__: foam transport case with hill slope = 1 (an example of transport case)
 
-Steps to run:
+## Steps to run
 * 1. Compile the solver file (in OpenFOAM)
 * 2. Run auto-generate_case.sh  (generate a family of flow & transport cases)
 * 3. Run get-raw-data.sh  (read all the raw data from generated transport cases)
