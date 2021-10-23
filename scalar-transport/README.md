@@ -1,4 +1,4 @@
-# Frame-independent vector-cloud neural network
+# Frame-independent vector-cloud neural network for Scalars
 
 ## Code Repository for the following paper: #
 
