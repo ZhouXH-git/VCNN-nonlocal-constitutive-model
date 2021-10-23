@@ -1,4 +1,6 @@
-# Code Repository for the following paper #
+# Frame-independent vector-cloud neural network
+
+## Code Repository for the following paper: #
 
 X.H. Zhou, J. Han, H. Xiao. Frame-independent vector-cloud neural network for nonlocal constitutive modelling on arbitrary grids. _Computer Methods in Applied Mechanics and Engineering_, 2021.
 
