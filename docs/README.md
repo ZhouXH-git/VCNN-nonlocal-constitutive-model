@@ -4,7 +4,7 @@ The vector-cloud neural network (VCNN) is a promising tool not only as nonlocal 
 Co-developed by Dr. Heng Xiao's group at Virginia Tech: [Data-Enabled Computational Mechanics Laboratory at Virgnia Tech](https://www.aoe.vt.edu/people/faculty/xiaoheng/personal-page.html) and Dr. Jiequn Han at Flatiron Institute: [Center for Computational Mathematics](https://users.flatironinstitute.org/~jhan/).
 
 ### VCNN for Scalar Transport
-![image](https://github.com/xuhuizhou-vt/VCNN-nonlocal-constitutive-model/blob/master/figs/schematic-NN.png)
+<div align=center><img width="966" src="https://github.com/xuhuizhou-vt/VCNN-nonlocal-constitutive-model/blob/master/figs/schematic-NN.png"/></div>
 
 This repository contains the code and data for the following paper(s):
 
